@@ -26,4 +26,8 @@ void main() {
           contains('Negative numbers are not allowed'))),
     );
   });
+
+  test('calculate string with non-int element , return exception', () {
+    expect(() => add('5,m\n5'), throwsA(isA<FormatException>()));
+  });
 }
