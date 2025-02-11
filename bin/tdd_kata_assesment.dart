@@ -1,6 +1,5 @@
-import 'package:tdd_kata_assesment/tdd_kata_assesment.dart'
-    as tdd_kata_assesment;
+import 'package:tdd_kata_assesment/tdd_kata_assesment.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${tdd_kata_assesment.calculate()}!');
+  print(add(arguments[0]));
 }

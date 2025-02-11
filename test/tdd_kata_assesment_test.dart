@@ -2,7 +2,10 @@ import 'package:tdd_kata_assesment/tdd_kata_assesment.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('calculate', () {
-    expect(calculate(), 42);
+  test('calculate empty string, return 0', () {
+    expect(add(''), 0);
+  });
+  test('calculate single length string, return first element', () {
+    expect(add('5'), 5);
   });
 }
