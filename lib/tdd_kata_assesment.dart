@@ -19,6 +19,9 @@ int add(String numbers) {
 
   int sum = 0;
   for (final number in splitNumbers) {
+    if (int.parse(number).isNegative) {
+      throw Exception('Negative numbers are not allowed');
+    }
     sum += int.parse(number);
   }
   return sum;

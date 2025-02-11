@@ -18,4 +18,12 @@ void main() {
   test('calculate string with custom delimiter , return sum', () {
     expect(add('//;\n1;2;3\n5'), 11);
   });
+
+  test('calculate string with negative number , return exception', () {
+    expect(
+      () => add('5,-8\n5'),
+      throwsA(isA<Exception>().having((e) => e.toString(), 'message',
+          contains('Negative numbers are not allowed'))),
+    );
+  });
 }
