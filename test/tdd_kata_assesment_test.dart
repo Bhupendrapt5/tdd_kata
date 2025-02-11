@@ -15,4 +15,7 @@ void main() {
   test('calculate string with comma and (\n) delimiter, return sum', () {
     expect(add('5,8\n5'), 18);
   });
+  test('calculate string with custom delimiter , return sum', () {
+    expect(add('//;\n1;2;3\n5'), 11);
+  });
 }
