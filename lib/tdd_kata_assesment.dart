@@ -3,7 +3,6 @@ int add(String numbers) {
     return 0;
   }
   String delimiters = ',';
-  numbers = numbers.replaceAll(r'\n', '\n');
 
   if (numbers.startsWith("//")) {
     int newlineIndex = numbers.indexOf("\n");
@@ -13,16 +12,21 @@ int add(String numbers) {
     delimiters = partBeforeNewline.replaceAll('//', '');
   }
 
-  final regex = RegExp(delimiters + r'|\n');
+  final regex = RegExp((delimiters == '*' ? r'\*' : delimiters) + r'|\n');
 
   final splitNumbers = numbers.split(regex);
 
-  int sum = 0;
+  int sum = delimiters == '*' ? 1 : 0;
+
   for (final number in splitNumbers) {
     if (int.parse(number).isNegative) {
       throw Exception('Negative numbers are not allowed');
     }
-    sum += int.parse(number);
+    if (delimiters == '*') {
+      sum *= int.parse(number);
+    } else {
+      sum += int.parse(number);
+    }
   }
   return sum;
 }

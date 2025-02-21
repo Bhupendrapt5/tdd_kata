@@ -30,4 +30,8 @@ void main() {
   test('calculate string with non-int element , return exception', () {
     expect(() => add('5,m\n5'), throwsA(isA<FormatException>()));
   });
+
+  test('if delimeter is *, multiply numbers', () {
+    expect(add('//*\n1*2*3*5'), 30);
+  });
 }
