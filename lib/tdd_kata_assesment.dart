@@ -1,32 +1,47 @@
-int add(String numbers) {
-  if (numbers.isEmpty) {
+int add(String input) {
+  if (input.isEmpty) {
     return 0;
   }
-  String delimiters = ',';
+  final delimiterInfo = getDelimitersAndNumbers(input);
+  final delimiter = delimiterInfo.delimiter;
+  final numbers = delimiterInfo.numbers;
 
-  if (numbers.startsWith("//")) {
-    int newlineIndex = numbers.indexOf("\n");
-    String partBeforeNewline = numbers.substring(0, newlineIndex);
-
-    numbers = numbers.substring(newlineIndex + 1);
-    delimiters = partBeforeNewline.replaceAll('//', '');
-  }
-
-  final regex = RegExp((delimiters == '*' ? r'\*' : delimiters) + r'|\n');
-
+  final isMultiplication = delimiter == '*';
+  final regex = RegExp('[$delimiter\n]');
   final splitNumbers = numbers.split(regex);
 
-  int sum = delimiters == '*' ? 1 : 0;
+  return _calculateResult(splitNumbers, isMultiplication);
+}
 
-  for (final number in splitNumbers) {
-    if (int.parse(number).isNegative) {
-      throw Exception('Negative numbers are not allowed');
-    }
-    if (delimiters == '*') {
-      sum *= int.parse(number);
-    } else {
-      sum += int.parse(number);
-    }
+int _calculateResult(List<String> splitNumbers, bool isMultiplication) {
+  int result = isMultiplication ? 1 : 0;
+
+  for (final numStr in splitNumbers) {
+    final numValue = _validateAndParse(numStr);
+    result = isMultiplication ? result * numValue : result + numValue;
   }
-  return sum;
+
+  return result;
+}
+
+int _validateAndParse(String number) {
+  final value = int.parse(number);
+  if (value < 0) throw Exception('Negative numbers are not allowed');
+  return value;
+}
+
+class DelimiterInfo {
+  final String delimiter;
+  final String numbers;
+  DelimiterInfo(this.delimiter, this.numbers);
+}
+
+DelimiterInfo getDelimitersAndNumbers(String input) {
+  if (input.startsWith("//")) {
+    final newlineIndex = input.indexOf("\n");
+    final delimiter = input.substring(2, newlineIndex);
+    final numbers = input.substring(newlineIndex + 1);
+    return DelimiterInfo(delimiter, numbers);
+  }
+  return DelimiterInfo(',', input);
 }
